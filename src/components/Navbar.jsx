@@ -1,8 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
+import { auth } from "../firebase/config";
+import { signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import WalletConnect from "./WalletConnect";
 
 export default function Navbar() {
   const location = useLocation();
+  const [user] = useAuthState(auth);
 
   const getLinkClass = (path) => {
     const baseClass = "text-[11px] uppercase tracking-[0.2em] font-semibold transition-colors duration-300";
@@ -26,6 +30,14 @@ export default function Navbar() {
 
       <div className="flex items-center gap-4">
         <WalletConnect />
+        {user && (
+          <button
+            onClick={() => signOut(auth)}
+            className="text-[11px] uppercase tracking-[0.2em] text-white/60 hover:text-white border border-white/10 hover:border-white px-4 py-2 rounded-full transition-all duration-300 font-semibold"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );

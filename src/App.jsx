@@ -10,7 +10,15 @@ import { auth } from "./firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function App() {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) {
+    return (
+      <div className="bg-navy min-h-screen text-white font-jakarta flex items-center justify-center">
+        <span className="font-anton text-2xl animate-pulse tracking-widest">LOADING AUTHORIZATION...</span>
+      </div>
+    );
+  }
 
   return (
     <BrowserRouter>
